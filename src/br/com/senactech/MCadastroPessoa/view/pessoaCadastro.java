@@ -32,17 +32,17 @@ public class pessoaCadastro extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jtPessoas.getModel();
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
-        Object rowData[] = new Object[4]; //Cria vetor para as colunas da tabela
+        Object colData[] = new Object[4]; //Cria vetor para as colunas da tabela
         for (Pessoa p: cadPessoas.getAll()) {
-            rowData[0] = p.getNomePessoa();
-            rowData[1] = ValidaCPF.imprimeCPF(p.getCpf());
-            rowData[2] = p.getTelefone();
+            colData[0] = p.getNomePessoa();
+            colData[1] = p.getCpf();
+            colData[2] = p.getTelefone();
             if (p.isStatus()) {
-                rowData[3] = "Ativo";
+                colData[3] = "Ativo";
             } else {
-                rowData[3] = "Inativo";
+                colData[3] = "Inativo";
             }
-            model.addRow(rowData);
+            model.addRow(colData);
         }
     }
     
@@ -137,6 +137,9 @@ public class pessoaCadastro extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtPessoas = new javax.swing.JTable();
         jbSair = new javax.swing.JButton();
+        jbDeletar = new javax.swing.JButton();
+        jbConfirmar = new javax.swing.JButton();
+        jbEditar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -259,7 +262,6 @@ public class pessoaCadastro extends javax.swing.JFrame {
         jrbInativo.setText("Inativo");
 
         jbSalvar.setBackground(new java.awt.Color(0, 255, 153));
-        jbSalvar.setForeground(new java.awt.Color(0, 0, 0));
         jbSalvar.setText("Salvar");
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,7 +270,6 @@ public class pessoaCadastro extends javax.swing.JFrame {
         });
 
         jbLimpar.setBackground(new java.awt.Color(0, 255, 153));
-        jbLimpar.setForeground(new java.awt.Color(0, 0, 0));
         jbLimpar.setText("Limpar");
         jbLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,8 +277,12 @@ public class pessoaCadastro extends javax.swing.JFrame {
             }
         });
 
-        jtPessoas.setBackground(new java.awt.Color(0, 0, 0));
-        jtPessoas.setForeground(new java.awt.Color(0, 255, 153));
+        jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setOpaque(false);
+
+        jtPessoas.setBackground(new java.awt.Color(0, 255, 153));
+        jtPessoas.setForeground(new java.awt.Color(0, 0, 0));
         jtPessoas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -303,16 +308,47 @@ public class pessoaCadastro extends javax.swing.JFrame {
         });
         jtPessoas.setGridColor(new java.awt.Color(51, 255, 0));
         jtPessoas.setOpaque(false);
-        jtPessoas.setSelectionBackground(new java.awt.Color(0, 255, 153));
-        jtPessoas.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        jtPessoas.setSelectionBackground(new java.awt.Color(0, 0, 0));
+        jtPessoas.setSelectionForeground(new java.awt.Color(0, 255, 153));
+        jtPessoas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtPessoasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtPessoas);
 
         jbSair.setBackground(new java.awt.Color(0, 255, 153));
-        jbSair.setForeground(new java.awt.Color(0, 0, 0));
         jbSair.setText("Sair");
         jbSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSairActionPerformed(evt);
+            }
+        });
+
+        jbDeletar.setBackground(new java.awt.Color(0, 255, 153));
+        jbDeletar.setText("Deletar");
+        jbDeletar.setEnabled(false);
+        jbDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDeletarActionPerformed(evt);
+            }
+        });
+
+        jbConfirmar.setBackground(new java.awt.Color(0, 255, 153));
+        jbConfirmar.setText("Confirmar");
+        jbConfirmar.setEnabled(false);
+        jbConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConfirmarActionPerformed(evt);
+            }
+        });
+
+        jbEditar.setBackground(new java.awt.Color(0, 255, 153));
+        jbEditar.setText("Editar");
+        jbEditar.setEnabled(false);
+        jbEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEditarActionPerformed(evt);
             }
         });
 
@@ -335,18 +371,18 @@ public class pessoaCadastro extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jtfNome)
+                                    .addComponent(jtfEndereco)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jrbAtivo)
                                         .addGap(18, 18, 18)
                                         .addComponent(jrbInativo)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jtfNome)
-                                    .addComponent(jtfEndereco))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap())
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,6 +401,12 @@ public class pessoaCadastro extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jbEditar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbConfirmar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbDeletar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbSair, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jSeparator2))
@@ -401,15 +443,19 @@ public class pessoaCadastro extends javax.swing.JFrame {
                     .addComponent(jrbAtivo)
                     .addComponent(jrbInativo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbSalvar)
                     .addComponent(jbLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbDeletar)
+                    .addComponent(jbConfirmar)
+                    .addComponent(jbEditar))
                 .addContainerGap())
         );
 
@@ -495,6 +541,93 @@ public class pessoaCadastro extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jbSairActionPerformed
 
+    private void jtPessoasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPessoasMouseClicked
+        // TODO add your handling code here:
+        jbDeletar.setEnabled(true);
+        jbEditar.setEnabled(true);
+    }//GEN-LAST:event_jtPessoasMouseClicked
+
+    private void jbDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDeletarActionPerformed
+        // TODO add your handling code here:
+        jbEditar.setEnabled(false);
+        int linha;
+        linha = jtPessoas.getSelectedRow();
+        String cpf = (String) jtPessoas.getValueAt(linha, 1);
+        JOptionPane.showMessageDialog(this, "Cpf: " + cpf);
+        Pessoa p = cadPessoas.getByDoc(cpf);
+//        int resposta = JOptionPane.showConfirmDialog(this, "Deseja "
+//                + "realmente deletar " + p.getNomePessoa() + "?",
+//                ".:Deletar:.",JOptionPane.YES_NO_OPTION,
+//                JOptionPane.QUESTION_MESSAGE);
+        Object[] resp = {"Sim", "Não"};
+        int resposta = JOptionPane.showOptionDialog(this, "Deseja realmente "
+                + "deletar " + p.getNomePessoa() + "?", ".:Deletar:.",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                resp, resp[0]);
+        if (resposta == 0) {
+            cadPessoas.deletar(p);
+            addRowToTable();
+            JOptionPane.showMessageDialog(this, "Pessoa deletada com "
+                    + "sucesso!", ".:Deletar:.", 
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Entendemos sua decisão", 
+                    ".:Deletar:.", JOptionPane.INFORMATION_MESSAGE);
+        }
+        jtPessoas.clearSelection();
+        jbDeletar.setEnabled(false);
+    }//GEN-LAST:event_jbDeletarActionPerformed
+
+    private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
+        // TODO add your handling code here:
+        // Ajustando comportamento dos botões
+        jbDeletar.setEnabled(false);
+        jbSalvar.setEnabled(false);
+        jbEditar.setEnabled(false);
+        jbLimpar.setEnabled(false);
+        jtfCPF.setEnabled(false);
+        jbConfirmar.setEnabled(true);
+        
+        // Carregar os dados da pessoa selecionada nos JTextFields
+        int linha;
+        linha = jtPessoas.getSelectedRow();
+        String cpf = (String) jtPessoas.getValueAt(linha, 1);
+        JOptionPane.showMessageDialog(this, "Cpf: " + cpf);
+        Pessoa p = cadPessoas.getByDoc(cpf);
+        
+        jtfNome.setText(p.getNomePessoa());
+        jtfCPF.setText(p.getCpf());
+        jtfEndereco.setText(p.getEndereco());
+        jtfTelefone.setText(p.getTelefone());
+        jtfIdade.setText(Integer.toString(p.getIdade()));
+        if (p.isStatus()) {
+            jrbAtivo.setSelected(true);
+        } else {
+            jrbInativo.setSelected(true);
+        }
+    }//GEN-LAST:event_jbEditarActionPerformed
+
+    private void jbConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarActionPerformed
+        // TODO add your handling code here:
+        String cpf = jtfCPF.getText();
+
+        Pessoa p = new Pessoa();
+        p = cadPessoas.getByDoc(cpf);
+        p.setNomePessoa(jtfNome.getText());
+        p.setEndereco(jtfEndereco.getText());
+        p.setIdade(Integer.parseInt(jtfIdade.getText()));
+        p.setStatus(jrbAtivo.isSelected());
+        p.setTelefone(jtfTelefone.getText());
+        JOptionPane.showMessageDialog(this, "Pessoa foi salva com sucesso!");
+        addRowToTable();
+        limpar();
+        jbLimpar.setEnabled(true);
+        jbSalvar.setEnabled(true);
+        jtfCPF.setEnabled(true);
+        jbConfirmar.setEnabled(false);
+        
+    }//GEN-LAST:event_jbConfirmarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -546,6 +679,9 @@ public class pessoaCadastro extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbConfirmar;
+    private javax.swing.JButton jbDeletar;
+    private javax.swing.JButton jbEditar;
     private javax.swing.JButton jbLimpar;
     private javax.swing.JButton jbSair;
     private javax.swing.JButton jbSalvar;
