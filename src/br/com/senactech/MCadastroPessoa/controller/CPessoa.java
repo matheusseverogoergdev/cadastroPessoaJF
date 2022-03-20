@@ -40,7 +40,7 @@ public class CPessoa implements InterfaceController<Pessoa> {
         Pessoa p1 = new Pessoa();
         p1.setIdPessoa(this.gerarId());
         p1.setNomePessoa("Felispino");
-        p1.setCpf("12312312312");
+        p1.setCpf("01919529829");
         p1.setEndereco("Mario Quintana");
         p1.setTelefone("51998998998");
         p1.setIdade(39);
@@ -50,7 +50,7 @@ public class CPessoa implements InterfaceController<Pessoa> {
         Pessoa p2 = new Pessoa();
         p2.setIdPessoa(this.gerarId());
         p2.setNomePessoa("Juvenal");
-        p2.setCpf("32132132132");
+        p2.setCpf("70466661053");
         p2.setEndereco("Av. dos Estados");
         p2.setIdade(35);
         p2.setTelefone("51988988988");
@@ -82,7 +82,7 @@ public class CPessoa implements InterfaceController<Pessoa> {
 
     @Override
     public Pessoa getByDoc(String cpf) {
-        Pessoa p = new Pessoa();
+        Pessoa p = null;
         for (Pessoa listPes : pessoas) {
             if (listPes.getCpf().equals(cpf)) {
                 p = listPes;
@@ -129,4 +129,15 @@ public class CPessoa implements InterfaceController<Pessoa> {
         return nome;
     }
 
+    public String getCPFPes(int idPessoa) {
+        String cpf = null;
+        for (Pessoa listPes: pessoas) {
+            if (listPes.getIdPessoa() == idPessoa) {
+                cpf = listPes.getCpf();
+                break;
+            }
+        }
+        return cpf;
+    }
+    
 }
