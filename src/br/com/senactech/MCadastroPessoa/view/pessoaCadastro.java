@@ -28,7 +28,7 @@ public class pessoaCadastro extends javax.swing.JFrame {
     public pessoaCadastro() {
         initComponents();
         this.setLocationRelativeTo(null);
-        cadPessoas.mokPessoas();
+//        cadPessoas.mokPessoas();
         addRowToTable();
     }
 

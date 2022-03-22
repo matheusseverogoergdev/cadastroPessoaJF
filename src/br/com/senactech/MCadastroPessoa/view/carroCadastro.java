@@ -29,8 +29,8 @@ public class carroCadastro extends javax.swing.JFrame {
      */
     public carroCadastro() {
         initComponents();
-        cadPessoas.mokPessoas();
-        cadCarros.mokCarro();
+//        cadPessoas.mokPessoas();
+//        cadCarros.mokCarro();
         addRowToTable();
     }
     
@@ -684,14 +684,17 @@ public class carroCadastro extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Placa: " + placa);
         Carro c = cadCarros.getByDoc(placa);
         
-        for (int i = 0; i < jcbMarca.getItemCount(); i++) {
-            Object currentObject = jcbMarca.getItemAt(i).toString();
-            if (currentObject.equals(c.getMarca())) {
-                jcbMarca.setSelectedIndex(i);
-                break;
-            }
-        }
+        // Com Laço de repetição:
+//        for (int i = 0; i < jcbMarca.getItemCount(); i++) {
+//            Object currentObject = jcbMarca.getItemAt(i).toString();
+//            if (currentObject.equals(c.getMarca())) {
+//                jcbMarca.setSelectedIndex(i);
+//                break;
+//            }
+//        }
         
+        // Sem laço:
+        jcbMarca.setSelectedItem(c.getMarca());
         jtfPlaca.setText(c.getPlaca());
         jtfModelo.setText(c.getModelo());
         jtfCor.setText(c.getCor());
@@ -706,7 +709,8 @@ public class carroCadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (validaInputs()) {
             Carro c = cadCarros.getByDoc(jtfPlaca.getText());
-            Pessoa p = cadPessoas.getByDoc(jtfCPFProprietario.getText());
+            // Método antigo comentado:
+//            Pessoa p = cadPessoas.getByDoc(jtfCPFProprietario.getText());
             
             c.setMarca(jcbMarca.getSelectedItem().toString());
             c.setModelo(jtfModelo.getText());
@@ -714,7 +718,9 @@ public class carroCadastro extends javax.swing.JFrame {
             c.setnPortas(Integer.parseInt(jtfNumPortas.getText()));
             c.setAnoFabricacao(Integer.parseInt(jtfAnoFabricacao.getText()));
             c.setAnoModelo(Integer.parseInt(jtfAnoModelo.getText()));
-            c.setIdPessoa(p.getIdPessoa());
+//            c.setIdPessoa(p.getIdPessoa());
+            // Método Novo:
+            c.setIdPessoa(cadPessoas.pesqIdPes(jtfCPFProprietario.getText()));
             addRowToTable();
             jbLimpar.setText("Limpar");
             jbLimpar.doClick();
